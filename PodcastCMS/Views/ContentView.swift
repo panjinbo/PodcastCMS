@@ -95,7 +95,7 @@ struct ContentView: View {
                         CreateEpisodeView(podcast: $selectedPodcast)
                     }
                 case .addPodcast:
-                    AddPodcastView()
+                    AddPodcastView(podcasts: $podcasts).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
                 }
             }
         }.onAppear{
@@ -121,19 +121,22 @@ struct ContentView: View {
     }
     
     
-    private func fetch() {
-        var req = URLRequest(url: URL(string: "https://media.panjinbo.com/podcast/lintalk/feed.xml")!)
-        req.httpMethod = "GET"
-        req.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
-        
-        
-        AF.request(req).responseData { response in
-            let data = response.data!
-            let xml = XML.parse(data)
-            if let podcast = Podcast.fromXML(xml: xml) {
-                podcasts.append(podcast)
-            } else {
-                print("wrong")
+    func fetch() {
+        for podcastMetadata in podcastMetadatas {
+            let rss = podcastMetadata.rss
+            var req = URLRequest(url: URL(string: rss!)!)
+            req.httpMethod = "GET"
+            req.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+            
+            
+            AF.request(req).responseData { response in
+                let data = response.data!
+                let xml = XML.parse(data)
+                if let podcast = Podcast.fromXML(xml: xml) {
+                    podcasts.append(podcast)
+                } else {
+                    print("wrong")
+                }
             }
         }
     }

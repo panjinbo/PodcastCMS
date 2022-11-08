@@ -50,7 +50,7 @@ struct GeneralSettingsView: View {
                 
                 HStack {
                     Text("S3 Bucket").padding(.leading, 2).frame(width: 160, alignment:.leading).padding()
-                    SecureField(text:$s3Bucket, prompt: Text("Required")) {
+                    TextField(text:$s3Bucket, prompt: Text("Required")) {
                     }.disableAutocorrection(true).textFieldStyle(.plain)
                 }
                 

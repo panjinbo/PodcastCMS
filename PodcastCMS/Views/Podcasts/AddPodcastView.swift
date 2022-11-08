@@ -9,23 +9,18 @@ import SwiftUI
 
 // creating items only as needed.
 struct AddPodcastView: View {
-    
+    @Environment(\.managedObjectContext) private var viewContext
+    @Binding var podcasts: [Podcast]
     
     var body: some View {
         
         TabView {
-            CreatePodcastView().tabItem {
+            CreatePodcastView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext).tabItem {
                 Label("Create", systemImage: "gear")
             }
-            ImportPodcastView().tabItem {
+            ImportPodcastView(podcasts: $podcasts).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext).tabItem {
                 Label("Import", systemImage: "gear")
             }
         }
-    }
-}
-
-struct AddPodcastView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPodcastView()
     }
 }

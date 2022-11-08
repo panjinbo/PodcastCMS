@@ -15,7 +15,14 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
 
         // Mock Core Data
-
+        var podcastMetadata = PodcastMetadata(context: viewContext)
+        podcastMetadata.rss = "https://media.panjinbo.com/podcast/johntalk/feed.xml"
+        podcastMetadata.lastModifiedDate = Date()
+//
+//        podcastMetadata = PodcastMetadata(context: viewContext)
+//        podcastMetadata.rss = "https://media.panjinbo.com/podcast/lintalk/feed.xml"
+//        podcastMetadata.lastModifiedDate = Date()
+        
         do {
             try viewContext.save()
         } catch {

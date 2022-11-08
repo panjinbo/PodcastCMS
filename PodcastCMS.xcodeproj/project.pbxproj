@@ -83,6 +83,8 @@
 		15985B78290C8F5A008BEC95 /* PodcastCMSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCMSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		15B2F656290CBCC800B2E650 /* AddPodcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPodcastView.swift; sourceTree = "<group>"; };
 		15D9A2B229121B69006A1C10 /* EpisodeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCardView.swift; sourceTree = "<group>"; };
+		15EAB6CE2919E9D40001CEF8 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		15EAB6CF2919EAAF0001CEF8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,8 @@
 		15985B49290C8F58008BEC95 = {
 			isa = PBXGroup;
 			children = (
+				15EAB6CF2919EAAF0001CEF8 /* README.md */,
+				15EAB6CE2919E9D40001CEF8 /* LICENSE.md */,
 				15239B232914C6C300662336 /* Assets.xcassets */,
 				15985B54290C8F59008BEC95 /* PodcastCMS */,
 				15985B6B290C8F5A008BEC95 /* PodcastCMSTests */,

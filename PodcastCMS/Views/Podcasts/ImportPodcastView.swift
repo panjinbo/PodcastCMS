@@ -13,9 +13,13 @@ import SwiftyXMLParser
 
 struct ImportPodcastView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Binding var podcasts: [Podcast]
 
     @State private var podcastURL: String = ""
-    @State private var show: String = "abc"
+    
+    // Modal window
+    @State private var modalText: String = ""
+    @State private var modalShow: Bool = false
 
     
     var body: some View {
@@ -27,14 +31,60 @@ struct ImportPodcastView: View {
                 }.disableAutocorrection(true).textFieldStyle(.plain)
             }
             Divider()
+            Button (action: {
+                importPodcast()
+            }) {
+                Text("Import")
+            }
+            
+            .sheet(isPresented: $modalShow) {
+                VStack {
+                    TextField(text: $modalText){
+                    }.foregroundColor(.black)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.plain)
+                        .disabled(true)
+                        .padding()
+                    
+                    Button (action: {
+                        modalShow = false
+                    }) {
+                        Text("Close")
+                    }.padding()
+                }
+            }
         }
     }
     
-    
-}
-
-struct ImportPodcastView_Previews: PreviewProvider {
-    static var previews: some View {
-        ImportPodcastView()
+    private func importPodcast() {
+        var req = URLRequest(url: URL(string: podcastURL)!)
+        req.httpMethod = "GET"
+        req.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        
+        
+        AF.request(req).responseData { response in
+            let data = response.data!
+            let xml = XML.parse(data)
+            if let podcast = Podcast.fromXML(xml: xml) {
+                let podcastMetadata = PodcastMetadata(context: viewContext)
+                podcastMetadata.rss = podcastURL
+                podcastMetadata.lastModifiedDate = Date()
+                do {
+                    try viewContext.save()
+                } catch {
+                    modalShow = true
+                    modalText = "Given URL RSS is not valid"
+                }
+                podcasts.append(podcast)
+            } else {
+                modalShow = true
+                modalText = "Given URL RSS is not valid"
+            }
+            modalShow = true
+            modalText = "Successfully Imported"
+        }
+        
     }
+    
+    
 }
